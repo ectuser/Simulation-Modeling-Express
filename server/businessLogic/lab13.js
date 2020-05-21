@@ -1,3 +1,4 @@
+const chiSquareTable = require("./chiSquareTable");
 
 const lab13 = async (lambda, range, experimentsAmount) => {
     let theoreticalProbabilities = [];
@@ -7,14 +8,16 @@ const lab13 = async (lambda, range, experimentsAmount) => {
     console.log(theoreticalProbabilities);
     let theoreticalDistribution = await getDistribution(theoreticalProbabilities);
     console.log(theoreticalDistribution);
-    const practicalProbabilities = await doExperiments(theoreticalDistribution, experimentsAmount);
+    const [practicalProbabilities, selectedAmount] = await doExperiments(theoreticalDistribution, experimentsAmount);
     console.log(practicalProbabilities);
 
     const theoreticalAverage = countAverage(theoreticalProbabilities);
     const theoreticalVariance = countVariance(theoreticalProbabilities, theoreticalAverage);
-    
+
     const practicalAverage = countAverage(practicalProbabilities);
     const practicalVariance = countVariance(practicalProbabilities, practicalAverage);
+
+    console.log("Theoretical : ", theoreticalVariance, "\n Practical : ", practicalVariance);
 
     const absDeltaAverage = countAbsMistake(theoreticalAverage, practicalAverage);
     const absDeltaVariance = countAbsMistake(theoreticalVariance, practicalVariance);
@@ -23,16 +26,27 @@ const lab13 = async (lambda, range, experimentsAmount) => {
     const relativeDeltaAverage = countRelativeMistake(absDeltaAverage, theoreticalAverage);
     const relativeDeltaVariance = countRelativeMistake(absDeltaVariance, theoreticalVariance);
 
-    console.log({average : practicalAverage,
-        variance : practicalVariance,
-        averageRelativeMistake : relativeDeltaAverage,
-        varianceRelativeMistake : relativeDeltaVariance});
+    const countedChiSquare = countChiSquare(theoreticalProbabilities, experimentsAmount, selectedAmount);
+    const ALPHA = 0.001;
+    // console.log(chiSquareTable.module);
+    const tableChiSquare = getChiSquareFromTable(range, ALPHA);
+    console.log(countedChiSquare, tableChiSquare)
+
+
+    // console.log({
+    //     average: practicalAverage,
+    //     variance: practicalVariance,
+    //     averageRelativeMistake: relativeDeltaAverage,
+    //     varianceRelativeMistake: relativeDeltaVariance
+    // });
     return {
-        practicalProbabilities : practicalProbabilities,
-        average : practicalAverage,
-        variance : practicalVariance,
-        averageRelativeMistake : relativeDeltaAverage,
-        varianceRelativeMistake : relativeDeltaVariance
+        practicalProbabilities: practicalProbabilities,
+        average: practicalAverage,
+        variance: practicalVariance,
+        averageRelativeMistake: relativeDeltaAverage,
+        varianceRelativeMistake: relativeDeltaVariance,
+        countedChiSquare: countedChiSquare,
+        tableChiSquare: tableChiSquare
     }
 
 
@@ -55,30 +69,30 @@ const doExperiments = async (theoreticalDistribution, experimentsAmount) => {
     let selectedAmount = new Array(theoreticalDistribution.length).fill(0);;
     for (let i = 0; i < experimentsAmount; i++) {
         let rnd = Math.random();
-        for (let i = 0; i < theoreticalDistribution.length; i++){
-            if (rnd < theoreticalDistribution[i]){
+        for (let i = 0; i < theoreticalDistribution.length; i++) {
+            if (rnd < theoreticalDistribution[i]) {
                 selectedAmount[i]++;
                 break;
             }
         }
     }
     let practicalProbabilities = new Array(theoreticalDistribution.length).fill(0);
-    for (let i = 0; i < theoreticalDistribution.length; i++){
+    for (let i = 0; i < theoreticalDistribution.length; i++) {
         practicalProbabilities[i] = selectedAmount[i] / experimentsAmount;
     }
-    return practicalProbabilities;
+    return [practicalProbabilities, selectedAmount];
 }
 
 const countAverage = (probabilities) => {
     let sum = 0;
-    for (let i = 0; i < probabilities.length; i++){
+    for (let i = 0; i < probabilities.length; i++) {
         sum += i * probabilities[i];
     }
     return sum;
 }
 const countVariance = (probabilities, average) => {
     let sum = 0;
-    for (let i = 0; i < probabilities.length; i++){
+    for (let i = 0; i < probabilities.length; i++) {
         sum += i ** 2 * probabilities[i];
     }
     let res = sum - (average ** 2)
@@ -88,6 +102,18 @@ const countVariance = (probabilities, average) => {
 const countAbsMistake = (first, second) => Math.abs(first - second);
 
 const countRelativeMistake = (absMistake, theoreticalData) => absMistake / Math.abs(theoreticalData);
+
+const countChiSquare = (ps, experimentsAmount, selectedAmount) => {
+    let sum = 0;
+    for (let i = 0; i < selectedAmount.length; i++) {
+        sum += ((selectedAmount[i] ** 2) / (experimentsAmount * ps[i]));
+    }
+    sum -= experimentsAmount;
+    return sum;
+}
+
+const alphas = [0.95, 0.90, 0.80, 0.70, 0.50, 0.30, 0.20, 0.10, 0.05, 0.01, 0.001];
+const getChiSquareFromTable = (m, alpha) => chiSquareTable.module[m][alphas.indexOf(alpha)];
 
 const fact = async (num) => {
     let res = 1;

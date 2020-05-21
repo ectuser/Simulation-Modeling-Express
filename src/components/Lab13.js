@@ -1,9 +1,8 @@
 import React, { useRef } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { TextField, Button, Divider, Grid, CircularProgress, Typography } from "@material-ui/core"
-import axios from "axios";
 import { Bar } from 'react-chartjs-2';
-import { setIsLoading, solveData } from "../redux/actions";
+import { solveData } from "../redux/actions";
 
 const styles = {
     divider: {
@@ -24,6 +23,8 @@ export const Lab13 = () => {
     const varianceRelativeMistake = useSelector(state => state.varianceRelativeMistake);
     const labels = useSelector(state => state.labels);
     const practicalProbabilities = useSelector(state => state.practicalProbabilities);
+    const countedChiSquare = useSelector(state => state.countedChiSquare);
+    const tableChiSquare = useSelector(state => state.tableChiSquare);
 
     const submit = async (event) => {
         event.preventDefault();
@@ -59,12 +60,6 @@ export const Lab13 = () => {
             </Grid>
             <Grid item xs={6}>
                 {isLoading && <CircularProgress />}
-                <Typography variant="h5" gutterBottom>
-                    {average && averageRelativeMistake && <span>Average: {average} (error = {averageRelativeMistake * 100} %)</span>}
-                </Typography>
-                <Typography variant="h5" gutterBottom>
-                    {variance && varianceRelativeMistake && <span>Variance: {variance} (error = {varianceRelativeMistake * 100} %)</span>}
-                </Typography>                
                 <Bar data={
                     {
                         datasets: [{
@@ -92,6 +87,27 @@ export const Lab13 = () => {
                         }
                     }
                 } />
+                <Typography variant="h5" gutterBottom>
+                    {average && averageRelativeMistake && <span>Average: {average} (error = {averageRelativeMistake * 100} %)</span>}
+                </Typography>
+                <Typography variant="h5" gutterBottom>
+                    {variance && varianceRelativeMistake && <span>Variance: {variance} (error = {varianceRelativeMistake * 100} %)</span>}
+                </Typography>
+                <Typography variant="h5" gutterBottom>
+                    {countedChiSquare && tableChiSquare && <span>Chi Square: {countedChiSquare}
+                    {(
+                        countedChiSquare < tableChiSquare ? <span>&lt;</span> :
+                        countedChiSquare === tableChiSquare ? <span>=</span> :
+                        <span>&gt;</span>
+                    )}
+                    {tableChiSquare}
+                    <br />
+                    ->
+                    {(countedChiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
+                    (alpha: 0.001)</span>
+                    
+                    }
+                </Typography>
             </Grid>
         </Grid>
     )

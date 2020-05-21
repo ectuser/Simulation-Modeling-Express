@@ -1,13 +1,13 @@
+const controller = require('./controller');
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000;
 const path = require('path');
 
+
 app.use(express.static(path.join(__dirname, '../build')));
 
-app.get('/get-user', (req, res) => {
-    res.json({ name: "Ivan" });
-})
+app.get('/simulation-discrete-random-variable', controller.Lab13Controller);
 
 
 

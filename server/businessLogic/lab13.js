@@ -44,9 +44,10 @@ const getProbability = async (m, lambda) => ((lambda ** m * Math.E ** (-lambda))
 const getDistribution = async (probabilities) => {
     let distribution = new Array(probabilities.length).fill(0);
     distribution[0] = probabilities[0];
-    for (let i = 1; i < probabilities.length; i++) {
+    for (let i = 1; i < probabilities.length - 1; i++) {
         distribution[i] = distribution[i - 1] + probabilities[i];
     }
+    distribution[distribution.length - 1] = 1;
     return distribution;
 }
 

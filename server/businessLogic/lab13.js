@@ -1,6 +1,7 @@
 const chiSquareTable = require("./chiSquareTable");
 
 const lab13 = async (lambda, range, experimentsAmount) => {
+    range++;
     let theoreticalProbabilities = [];
     for (let i = 0; i < range; i++) {
         theoreticalProbabilities.push(await getProbability(i, lambda));
@@ -28,17 +29,8 @@ const lab13 = async (lambda, range, experimentsAmount) => {
 
     const countedChiSquare = countChiSquare(theoreticalProbabilities, experimentsAmount, selectedAmount);
     const ALPHA = 0.001;
-    // console.log(chiSquareTable.module);
     const tableChiSquare = getChiSquareFromTable(range, ALPHA);
-    console.log(countedChiSquare, tableChiSquare)
 
-
-    // console.log({
-    //     average: practicalAverage,
-    //     variance: practicalVariance,
-    //     averageRelativeMistake: relativeDeltaAverage,
-    //     varianceRelativeMistake: relativeDeltaVariance
-    // });
     return {
         practicalProbabilities: practicalProbabilities,
         average: practicalAverage,
@@ -48,9 +40,6 @@ const lab13 = async (lambda, range, experimentsAmount) => {
         countedChiSquare: countedChiSquare,
         tableChiSquare: tableChiSquare
     }
-
-
-    // return theoreticalProbabilities;
 }
 
 const getProbability = async (m, lambda) => ((lambda ** m * Math.E ** (-lambda))) / (await fact(m));

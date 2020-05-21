@@ -10,6 +10,7 @@ export const solveData = (lambda, range, experimentsAmount) => {
             let data = serverData.data;
             console.log(data);
             data.labels = [...Array(data.practicalProbabilities.length).keys()];
+            data.labels[data.labels.length - 1] = `More than ${data.labels[data.labels.length - 1]}`;
             dispatch(setData(data));
         } catch (error) {
             console.error(error);

@@ -88,24 +88,23 @@ export const Lab13 = () => {
                     }
                 } />
                 <Typography variant="h5" gutterBottom>
-                    {average && averageRelativeMistake && <span>Average: {average} (error = {averageRelativeMistake * 100} %)</span>}
+                    {average && averageRelativeMistake && <span>Average: {average.toFixed(2)} (error = {(averageRelativeMistake * 100).toFixed(2)} %)</span>}
                 </Typography>
                 <Typography variant="h5" gutterBottom>
-                    {variance && varianceRelativeMistake && <span>Variance: {variance} (error = {varianceRelativeMistake * 100} %)</span>}
+                    {variance && varianceRelativeMistake && <span>Variance: {variance.toFixed(2)} (error = {(varianceRelativeMistake * 100).toFixed(2)} %)</span>}
                 </Typography>
                 <Typography variant="h5" gutterBottom>
-                    {countedChiSquare && tableChiSquare && <span>Chi Square: {countedChiSquare}
-                    {(
-                        countedChiSquare < tableChiSquare ? <span>&lt;</span> :
-                        countedChiSquare === tableChiSquare ? <span>=</span> :
-                        <span>&gt;</span>
-                    )}
-                    {tableChiSquare}
-                    <br />
+                    {countedChiSquare && tableChiSquare && <span>Chi Square: {countedChiSquare.toFixed(2)}
+                        {(
+                            countedChiSquare < tableChiSquare ? <span>&lt;</span> :
+                                countedChiSquare === tableChiSquare ? <span>=</span> :
+                                    <span>&gt;</span>
+                        )}
+                        {tableChiSquare}
+                        <br />
                     ->
                     {(countedChiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
                     (alpha: 0.001)</span>
-                    
                     }
                 </Typography>
             </Grid>

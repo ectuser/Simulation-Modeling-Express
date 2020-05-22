@@ -44,33 +44,33 @@ const countDensity = (values, average, variance, intervalsAmount, experimentsAmo
     console.log("All area: ", allArea);
     const theoreticalProbabilities = getTheoreticalProbabilities(intervals, variance, average);
     console.log("Theoretical probabilities", theoreticalProbabilities);
-    const pis = countPis([0, ...intervals], theoreticalProbabilities);
+    const pis = countPis([leftGraphBorder, ...intervals], average, variance);
     console.log(pis)
 
-    const chiSquare = countChiSquare(pis, experimentsAmount, selections);
+    const chiSquare = countChiSquare(experimentsAmount, selections, pis);
 
 
     return [density, theoreticalProbabilities, intervals, chiSquare];
 }
 
-const countChiSquare = (pis, N, selections) => {
+const countChiSquare = (experimentsAmount, selections, pis) => {
     let sum = 0;
-    for (let i = 0; i < selections.length; i++){
-        sum += ((selections[i] ** 2) / (N * pis[i]))
+    for (let i = 0; i < pis.length; i++){
+        sum += ((selections[i] ** 2) / (experimentsAmount * pis[i])) 
     }
-    const chi = sum - N;
-    return chi;
+    return sum - experimentsAmount;
 }
 
-const countPis = (intervals, probabilities) => {
+const countPis = (intervals, average, variance) => {
     let pis = []
     for (let i = 1; i < intervals.length; i++){
         const a = intervals[i - 1];
         const b = intervals[i];
-        const pxi = probabilities[i - 1];
-        const res = (b - a) * pxi * ((a + b) / 2)
+        const x = (a + b) / 2;
+        const pxi = countTheoreticalProbability(x, average, variance);
+        const res = (b - a) * pxi;
         if (res < 0){
-            console.log(a, b, pxi, i);
+            console.log(x, average, variance, pxi, a, b);
         }
         pis.push(res);
     }
@@ -81,7 +81,9 @@ const getAllDensity = (probabilities, coef) => probabilities.map((item, i) => it
 
 const getAllArea = (intervalValue, probabilities) => [...probabilities.map((item, i) => item * intervalValue)].reduce((a,b) => a + b);
 
-const getTheoreticalProbabilities = (intervals, variance, average) => intervals.map((x, i) => ((Math.E ** (-((x - average) ** 2) / (2 * variance))) / (Math.sqrt(variance) * Math.sqrt(2 * Math.PI))));
+const getTheoreticalProbabilities = (intervals, variance, average) => intervals.map((x, i) => countTheoreticalProbability(x, average, variance));
+
+const countTheoreticalProbability = (x, average, variance) => ((Math.E ** (-((x - average) ** 2) / (2 * variance))) / (Math.sqrt(variance) * Math.sqrt(2 * Math.PI)));
 
 const getProbabilities = (selections, N) => selections.map((item, i) => item / N);
 

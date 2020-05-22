@@ -104,7 +104,7 @@ export const Lab13 = () => {
                         <br />
                     ->
                     {(countedChiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
-                    (alpha: 0.001)</span>
+                    (alpha: 0.7)</span>
                     }
                 </Typography>
             </Grid>

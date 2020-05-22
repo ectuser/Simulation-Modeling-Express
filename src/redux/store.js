@@ -14,10 +14,35 @@ const initialState = {
 
     // 14 lab
     isLoading14: false,
-    labels14: [],
-    probabilities14: {
-        theoretical : [],
-        practical : []
+    additionMethod: {
+        practicalDensity: [],
+        theoreticalDensity: [],
+        labels: [],
+        practicalAverage: null,
+        practicalVariance: null,
+        averageMistake: null,
+        varianceMistake: null,
+        chiSquare: null
+    },
+    exactAdditionMethod: {
+        practicalDensity: [],
+        theoreticalDensity: [],
+        labels: [],
+        practicalAverage: null,
+        practicalVariance: null,
+        averageMistake: null,
+        varianceMistake: null,
+        chiSquare: null
+    },
+    boxMullerMethod: {
+        practicalDensity: [],
+        theoreticalDensity: [],
+        labels: [],
+        practicalAverage: null,
+        practicalVariance: null,
+        averageMistake: null,
+        varianceMistake: null,
+        chiSquare: null
     }
 };
 
@@ -47,11 +72,13 @@ const reducer = (state = initialState, action) => {
             isLoading14: action.payload
         }
     }
-    else if (action.type === "SET_DATA_14"){
+    else if (action.type === "SET_DATA_14") {
         return {
             ...state,
-            labels14: action.payload.labels,
-            probabilities14: action.payload.probabilities
+            additionMethod: {...action.payload.additionMethod},
+            exactAdditionMethod: {...action.payload.exactAdditionMethod},
+            boxMullerMethod: {...action.payload.boxMullerMethod},
+            tableChiSquare: action.payload.tableChiSquare
         }
     }
     return state;

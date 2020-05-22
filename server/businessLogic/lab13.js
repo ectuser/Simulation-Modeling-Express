@@ -28,7 +28,7 @@ const lab13 = async (lambda, range, experimentsAmount) => {
     const relativeDeltaVariance = countRelativeMistake(absDeltaVariance, theoreticalVariance);
 
     const countedChiSquare = countChiSquare(theoreticalProbabilities, experimentsAmount, selectedAmount);
-    const ALPHA = 0.001;
+    const ALPHA = 0.7;
     const tableChiSquare = getChiSquareFromTable(range, ALPHA);
 
     return {

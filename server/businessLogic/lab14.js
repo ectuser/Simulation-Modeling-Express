@@ -1,25 +1,69 @@
+const chiSquareTable = require("./chiSquareTable");
+
 const lab14 = async (average, variance, experimentsAmount) => {
     const intervalsAmount = Math.ceil(Math.log(experimentsAmount)) + 1;
     // const intervalsAmount = Math.ceil(Math.sqrt(experimentsAmount)) + 1;
 
-    const [additionMethodValues, exactAdditionMethodValues] = doExperiments(average, variance, experimentsAmount);
+    const [additionMethodValues, exactAdditionMethodValues, boxMullerMethodValues] = doExperiments(average, variance, experimentsAmount);
     console.log("Exact method values: ", exactAdditionMethodValues);
 
-    const [additionMethodDensity, additionMethodProbabilities, additionMethodIntervals, 
-        additionMethodChiSquare, additionMethodPracticalAverage, additionMethodPracticalVariance, 
+    const [additionMethodDensity, additionMethodProbabilities,
+        additionMethodIntervals, additionMethodChiSquare,
+        additionMethodPracticalAverage, additionMethodPracticalVariance,
         additionMethodRelativeAverageMistake, additionMethodRelativeVarianceMistake] = countDensity(additionMethodValues, average, variance, intervalsAmount, experimentsAmount);
-    const [exactAdditionMethodDensity, exactAdditionMethodProbabilities, 
+
+    const [exactAdditionMethodDensity, exactAdditionMethodProbabilities,
         exactAdditionMethodIntervals, exactAdditionMethodChiSquare,
-        exactAdditionMethodPracticalAverage, exactAdditionMethodPracticalVariance, 
+        exactAdditionMethodPracticalAverage, exactAdditionMethodPracticalVariance,
         exactAdditionMethodRelativeAverageMistake, exactAdditionMethodRelativeVarianceMistake] = countDensity(exactAdditionMethodValues, average, variance, intervalsAmount, experimentsAmount);
-    console.log("Chi square: ", additionMethodPracticalAverage, additionMethodPracticalVariance, additionMethodRelativeAverageMistake, additionMethodRelativeVarianceMistake);
+
+    const [boxMullerMethodDensity, boxMullerMethodProbabilities,
+        boxMullerMethodIntervals, boxMullerMethodChiSquare,
+        boxMullerMethodPracticalAverage, boxMullerMethodPracticalVariance,
+        boxMullerMethodRelativeAverageMistake, boxMullerMethodRelativeVarianceMistake] = countDensity(boxMullerMethodValues, average, variance, intervalsAmount, experimentsAmount);
+
+    let tableChiSquare = null;
+    try {
+        const ALPHA = 0.7;
+        tableChiSquare = getChiSquareFromTable(intervalsAmount, ALPHA);
+    } catch (error) {
+        tableChiSquare = null;
+    }
+    // console.log("Chi square: ", additionMethodPracticalAverage, additionMethodPracticalVariance, additionMethodRelativeAverageMistake, additionMethodRelativeVarianceMistake);
 
     const resultObject = {
-        labels: additionMethodIntervals,
-        probabilities: {
-            practical: exactAdditionMethodDensity,
-            theoretical: exactAdditionMethodProbabilities
-        }
+        additionMethod: {
+            practicalDensity: additionMethodDensity,
+            theoreticalDensity: additionMethodProbabilities,
+            labels: additionMethodIntervals,
+            practicalAverage: additionMethodPracticalAverage,
+            practicalVariance: additionMethodPracticalVariance,
+            averageMistake: additionMethodRelativeAverageMistake,
+            varianceMistake: additionMethodRelativeVarianceMistake,
+            chiSquare: additionMethodChiSquare
+        },
+        exactAdditionMethod: {
+            practicalDensity: exactAdditionMethodDensity,
+            theoreticalDensity: exactAdditionMethodProbabilities,
+            labels: exactAdditionMethodIntervals,
+            practicalAverage: exactAdditionMethodPracticalAverage,
+            practicalVariance: exactAdditionMethodPracticalVariance,
+            averageMistake: exactAdditionMethodRelativeAverageMistake,
+            varianceMistake: exactAdditionMethodRelativeVarianceMistake,
+            chiSquare: exactAdditionMethodChiSquare
+        },
+        boxMullerMethod: {
+            practicalDensity: boxMullerMethodDensity,
+            theoreticalDensity: boxMullerMethodProbabilities,
+            labels: boxMullerMethodIntervals,
+            practicalAverage: boxMullerMethodPracticalAverage,
+            practicalVariance: boxMullerMethodPracticalVariance,
+            averageMistake: boxMullerMethodRelativeAverageMistake,
+            varianceMistake: boxMullerMethodRelativeVarianceMistake,
+            chiSquare: boxMullerMethodChiSquare
+        },
+        tableChiSquare: tableChiSquare
+
     };
     return resultObject;
 
@@ -57,7 +101,7 @@ const countDensity = (values, average, variance, intervalsAmount, experimentsAmo
 
     const chiSquare = countChiSquare(experimentsAmount, selections, pis);
 
-    
+
 
 
     return [density, theoreticalProbabilities, intervals, chiSquare, practicalAverage, practicalVariance, relativeAverageMistake, relativeVarianceMistake];
@@ -65,7 +109,7 @@ const countDensity = (values, average, variance, intervalsAmount, experimentsAmo
 
 const countExDxAndMistakes = (values, experimentsAmount, theoreticalAverage, theoreticalVariance) => {
     const practicalAverage = (values.reduce((a, b) => a + b)) / experimentsAmount;
-    const practicalVariance = (values.map((item, i) => item ** 2).reduce((a,b) => a + b)) / experimentsAmount - practicalAverage ** 2;
+    const practicalVariance = (values.map((item, i) => item ** 2).reduce((a, b) => a + b)) / experimentsAmount - practicalAverage ** 2;
 
     const absAverageMistake = Math.abs(theoreticalAverage - practicalAverage);
     const absVarianceMistake = Math.abs(theoreticalVariance - practicalVariance);
@@ -80,21 +124,21 @@ const countExDxAndMistakes = (values, experimentsAmount, theoreticalAverage, the
 
 const countChiSquare = (experimentsAmount, selections, pis) => {
     let sum = 0;
-    for (let i = 0; i < pis.length; i++){
-        sum += ((selections[i] ** 2) / (experimentsAmount * pis[i])) 
+    for (let i = 0; i < pis.length; i++) {
+        sum += ((selections[i] ** 2) / (experimentsAmount * pis[i]))
     }
     return sum - experimentsAmount;
 }
 
 const countPis = (intervals, average, variance) => {
     let pis = []
-    for (let i = 1; i < intervals.length; i++){
+    for (let i = 1; i < intervals.length; i++) {
         const a = intervals[i - 1];
         const b = intervals[i];
         const x = (a + b) / 2;
         const pxi = countTheoreticalProbability(x, average, variance);
         const res = (b - a) * pxi;
-        if (res < 0){
+        if (res < 0) {
             console.log(x, average, variance, pxi, a, b);
         }
         pis.push(res);
@@ -104,7 +148,7 @@ const countPis = (intervals, average, variance) => {
 
 const getAllDensity = (probabilities, coef) => probabilities.map((item, i) => item * coef);
 
-const getAllArea = (intervalValue, probabilities) => [...probabilities.map((item, i) => item * intervalValue)].reduce((a,b) => a + b);
+const getAllArea = (intervalValue, probabilities) => [...probabilities.map((item, i) => item * intervalValue)].reduce((a, b) => a + b);
 
 const getTheoreticalProbabilities = (intervals, variance, average) => intervals.map((x, i) => countTheoreticalProbability(x, average, variance));
 
@@ -138,17 +182,21 @@ const getIntervals = (leftGraphBorder, rightGraphBorder, intervalValue, interval
 const doExperiments = (average, variance, N) => {
     let additionMethodResults = [];
     let exactAdditionMethodResults = [];
+    let boxMullerMethodResults = [];
     for (let i = 0; i < N; i++) {
         let sum = countSum(12);
         const zeta = sum - 6;
-        let zetaForExact = zeta + (zeta ** 3 - 3 * zeta) / 240 ;
+        let zetaForExact = zeta + (zeta ** 3 - 3 * zeta) / 240;
+        let zetaForBoxMullerMethod = Math.sqrt(-2 * Math.log(Math.random())) * Math.cos(2 * Math.PI * Math.random());
         const additionMethodXi = countXi(zeta, average, variance);
         const exactAdditionMethodXi = countXi(zetaForExact, average, variance);
+        const BoxMullerMethodXi = countXi(zetaForBoxMullerMethod, average, variance);
         additionMethodResults.push(additionMethodXi);
         exactAdditionMethodResults.push(exactAdditionMethodXi);
+        boxMullerMethodResults.push(BoxMullerMethodXi);
     }
     console.log(additionMethodResults);
-    return [additionMethodResults, exactAdditionMethodResults];
+    return [additionMethodResults, exactAdditionMethodResults, boxMullerMethodResults];
 }
 
 const countXi = (zeta, average, variance) => Math.sqrt(variance) * zeta + average;
@@ -160,6 +208,9 @@ const countSum = (n) => {
     }
     return sum;
 }
+
+const alphas = [0.95, 0.90, 0.80, 0.70, 0.50, 0.30, 0.20, 0.10, 0.05, 0.01, 0.001];
+const getChiSquareFromTable = (m, alpha) => chiSquareTable.module[m][alphas.indexOf(alpha)];
 
 
 module.exports = lab14;

@@ -1,4 +1,5 @@
 const lab13 = require('./businessLogic/lab13');
+const lab14 = require('./businessLogic/lab14');
 
 const Lab13Controller = async (req, res) => {
     const lambda = req.query.lambda;
@@ -8,6 +9,12 @@ const Lab13Controller = async (req, res) => {
     res.json(data);
 }
 
+const Lab14Controller = async (req, res) => {
+    let output = await lab14(Number(req.query.average), Number(req.query.variance), Number(req.query.experimentsAmount)); // output should be object
+    res.json(output);
+}
+
 module.exports = {
-    Lab13Controller : Lab13Controller
+    Lab13Controller : Lab13Controller,
+    Lab14Controller : Lab14Controller
 };

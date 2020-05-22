@@ -10,7 +10,12 @@ const initialState = {
     varianceRelativeMistake: null,
     isLoading: false,
     countedChiSquare: null,
-    tableChiSquare: null
+    tableChiSquare: null,
+
+    // 14 lab
+    isLoading14: false,
+    labels14: [],
+    probabilities14: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -31,6 +36,19 @@ const reducer = (state = initialState, action) => {
         return {
             ...state,
             isLoading: action.payload
+        }
+    }
+    else if (action.type === "SET_IS_LOADING_14") {
+        return {
+            ...state,
+            isLoading14: action.payload
+        }
+    }
+    else if (action.type === "SET_DATA_14"){
+        return {
+            ...state,
+            labels14: action.payload.labels,
+            probabilities14: action.payload.probabilities
         }
     }
     return state;

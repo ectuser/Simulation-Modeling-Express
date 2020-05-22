@@ -5,14 +5,20 @@ const lab14 = async (average, variance, experimentsAmount) => {
     const [additionMethodValues, exactAdditionMethodValues] = doExperiments(average, variance, experimentsAmount);
     console.log("Exact method values: ", exactAdditionMethodValues);
 
-    const [additionMethodDensity, additionMethodProbabilities, additionMethodIntervals, chiSquare] = countDensity(additionMethodValues, average, variance, intervalsAmount, experimentsAmount);
-    console.log("Chi square: ", chiSquare);
+    const [additionMethodDensity, additionMethodProbabilities, additionMethodIntervals, 
+        additionMethodChiSquare, additionMethodPracticalAverage, additionMethodPracticalVariance, 
+        additionMethodRelativeAverageMistake, additionMethodRelativeVarianceMistake] = countDensity(additionMethodValues, average, variance, intervalsAmount, experimentsAmount);
+    const [exactAdditionMethodDensity, exactAdditionMethodProbabilities, 
+        exactAdditionMethodIntervals, exactAdditionMethodChiSquare,
+        exactAdditionMethodPracticalAverage, exactAdditionMethodPracticalVariance, 
+        exactAdditionMethodRelativeAverageMistake, exactAdditionMethodRelativeVarianceMistake] = countDensity(exactAdditionMethodValues, average, variance, intervalsAmount, experimentsAmount);
+    console.log("Chi square: ", additionMethodPracticalAverage, additionMethodPracticalVariance, additionMethodRelativeAverageMistake, additionMethodRelativeVarianceMistake);
 
     const resultObject = {
         labels: additionMethodIntervals,
         probabilities: {
-            practical: additionMethodDensity,
-            theoretical: additionMethodProbabilities
+            practical: exactAdditionMethodDensity,
+            theoretical: exactAdditionMethodProbabilities
         }
     };
     return resultObject;
@@ -20,6 +26,8 @@ const lab14 = async (average, variance, experimentsAmount) => {
 }
 
 const countDensity = (values, average, variance, intervalsAmount, experimentsAmount) => {
+    const [practicalAverage, practicalVariance, relativeAverageMistake, relativeVarianceMistake] = countExDxAndMistakes(values, experimentsAmount, average, variance);
+
     const leftGraphBorder = Math.min(...values);
     const rightGraphBorder = Math.max(...values);
 
@@ -45,13 +53,30 @@ const countDensity = (values, average, variance, intervalsAmount, experimentsAmo
     const theoreticalProbabilities = getTheoreticalProbabilities(intervals, variance, average);
     console.log("Theoretical probabilities", theoreticalProbabilities);
     const pis = countPis([leftGraphBorder, ...intervals], average, variance);
-    console.log(pis)
+    console.log(pis);
 
     const chiSquare = countChiSquare(experimentsAmount, selections, pis);
 
+    
 
-    return [density, theoreticalProbabilities, intervals, chiSquare];
+
+    return [density, theoreticalProbabilities, intervals, chiSquare, practicalAverage, practicalVariance, relativeAverageMistake, relativeVarianceMistake];
 }
+
+const countExDxAndMistakes = (values, experimentsAmount, theoreticalAverage, theoreticalVariance) => {
+    const practicalAverage = (values.reduce((a, b) => a + b)) / experimentsAmount;
+    const practicalVariance = (values.map((item, i) => item ** 2).reduce((a,b) => a + b)) / experimentsAmount - practicalAverage ** 2;
+
+    const absAverageMistake = Math.abs(theoreticalAverage - practicalAverage);
+    const absVarianceMistake = Math.abs(theoreticalVariance - practicalVariance);
+
+    const relativeAverageMistake = absAverageMistake / Math.abs(theoreticalAverage);
+    const relativeVarianceMistake = absVarianceMistake / Math.abs(theoreticalVariance);
+
+    return [practicalAverage, practicalVariance, relativeAverageMistake, relativeVarianceMistake];
+}
+
+
 
 const countChiSquare = (experimentsAmount, selections, pis) => {
     let sum = 0;

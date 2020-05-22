@@ -2,8 +2,23 @@ const lab14 = async (average, variance, experimentsAmount) => {
     const intervalsAmount = Math.ceil(Math.log(experimentsAmount)) + 1;
     // const intervalsAmount = Math.ceil(Math.sqrt(experimentsAmount)) + 1;
 
-    const values = doExperiments(average, variance, experimentsAmount);
+    const [additionMethodValues, exactAdditionMethodValues] = doExperiments(average, variance, experimentsAmount);
+    console.log("Exact method values: ", exactAdditionMethodValues);
 
+    const [density, theoreticalProbabilities, intervals] = countDensity(additionMethodValues, average, variance, intervalsAmount, experimentsAmount);
+
+    const resultObject = {
+        labels: intervals,
+        probabilities: {
+            practical: density,
+            theoretical: theoreticalProbabilities
+        }
+    };
+    return resultObject;
+
+}
+
+const countDensity = (values, average, variance, intervalsAmount, experimentsAmount) => {
     const leftGraphBorder = Math.min(...values);
     const rightGraphBorder = Math.max(...values);
 
@@ -29,15 +44,7 @@ const lab14 = async (average, variance, experimentsAmount) => {
     const theoreticalProbabilities = getTheoreticalProbabilities(intervals, variance, average);
     console.log("Theoretical probabilities", theoreticalProbabilities);
 
-    const resultObject = {
-        labels: intervals,
-        probabilities: {
-            practical: density,
-            theoretical: theoreticalProbabilities
-        }
-    };
-    return resultObject;
-
+    return [density, theoreticalProbabilities, intervals];
 }
 
 const getAllDensity = (probabilities, coef) => probabilities.map((item, i) => item * coef);
@@ -72,16 +79,22 @@ const getIntervals = (leftGraphBorder, rightGraphBorder, intervalValue, interval
 }
 
 const doExperiments = (average, variance, N) => {
-    let results = [];
+    let additionMethodResults = [];
+    let exactAdditionMethodResults = [];
     for (let i = 0; i < N; i++) {
         let sum = countSum(12);
         const zeta = sum - 6;
-        let xi = Math.sqrt(variance) * zeta + average;
-        results.push(xi);
+        let zetaForExact = zeta + (zeta ** 3 - 3 * zeta) / 240 ;
+        const additionMethodXi = countXi(zeta, average, variance);
+        const exactAdditionMethodXi = countXi(zetaForExact, average, variance);
+        additionMethodResults.push(additionMethodXi);
+        exactAdditionMethodResults.push(exactAdditionMethodXi);
     }
-    console.log(results);
-    return results;
+    console.log(additionMethodResults);
+    return [additionMethodResults, exactAdditionMethodResults];
 }
+
+const countXi = (zeta, average, variance) => Math.sqrt(variance) * zeta + average;
 
 const countSum = (n) => {
     let sum = 0

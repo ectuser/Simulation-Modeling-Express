@@ -43,21 +43,21 @@ export const Lab14 = () => {
                 <Divider style={styles.divider} />
                 <Button type="submit" variant="contained" color="primary">
                     Start
-            </Button>
+                </Button>
             </form>
             {isLoading && <CircularProgress />}
             <Bar data={
                 {
                     datasets: [
-                    {
-                        type: 'bar',
-                        data: probabilities.practical
-                    },
-                    {
-                        type: 'line',
-                        data: probabilities.theoretical
-                    },
-                ],
+                        {
+                            type: 'bar',
+                            data: probabilities.practical
+                        },
+                        {
+                            type: 'line',
+                            data: probabilities.theoretical
+                        },
+                    ],
                     labels: labels
                 }
 
@@ -68,7 +68,75 @@ export const Lab14 = () => {
                     },
                     title: {
                         display: true,
-                        text: 'Frequency'
+                        text: 'Addition method'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                suggestedMin: 0
+                            }
+                        }]
+                    }
+                }
+            } />
+            <Divider style={styles.divider} />
+            <Bar data={
+                {
+                    datasets: [
+                        {
+                            type: 'bar',
+                            data: probabilities.practical
+                        },
+                        {
+                            type: 'line',
+                            data: probabilities.theoretical
+                        },
+                    ],
+                    labels: labels
+                }
+
+            } options={
+                {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Addition method'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                suggestedMin: 0
+                            }
+                        }]
+                    }
+                }
+            } />
+            <Divider style={styles.divider} />
+            <Bar data={
+                {
+                    datasets: [
+                        {
+                            type: 'bar',
+                            data: probabilities.practical
+                        },
+                        {
+                            type: 'line',
+                            data: probabilities.theoretical
+                        },
+                    ],
+                    labels: labels
+                }
+
+            } options={
+                {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Addition method'
                     },
                     scales: {
                         yAxes: [{

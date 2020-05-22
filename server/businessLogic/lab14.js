@@ -5,13 +5,14 @@ const lab14 = async (average, variance, experimentsAmount) => {
     const [additionMethodValues, exactAdditionMethodValues] = doExperiments(average, variance, experimentsAmount);
     console.log("Exact method values: ", exactAdditionMethodValues);
 
-    const [density, theoreticalProbabilities, intervals] = countDensity(additionMethodValues, average, variance, intervalsAmount, experimentsAmount);
+    const [additionMethodDensity, additionMethodProbabilities, additionMethodIntervals, chiSquare] = countDensity(additionMethodValues, average, variance, intervalsAmount, experimentsAmount);
+    console.log("Chi square: ", chiSquare);
 
     const resultObject = {
-        labels: intervals,
+        labels: additionMethodIntervals,
         probabilities: {
-            practical: density,
-            theoretical: theoreticalProbabilities
+            practical: additionMethodDensity,
+            theoretical: additionMethodProbabilities
         }
     };
     return resultObject;
@@ -43,8 +44,37 @@ const countDensity = (values, average, variance, intervalsAmount, experimentsAmo
     console.log("All area: ", allArea);
     const theoreticalProbabilities = getTheoreticalProbabilities(intervals, variance, average);
     console.log("Theoretical probabilities", theoreticalProbabilities);
+    const pis = countPis([0, ...intervals], theoreticalProbabilities);
+    console.log(pis)
 
-    return [density, theoreticalProbabilities, intervals];
+    const chiSquare = countChiSquare(pis, experimentsAmount, selections);
+
+
+    return [density, theoreticalProbabilities, intervals, chiSquare];
+}
+
+const countChiSquare = (pis, N, selections) => {
+    let sum = 0;
+    for (let i = 0; i < selections.length; i++){
+        sum += ((selections[i] ** 2) / (N * pis[i]))
+    }
+    const chi = sum - N;
+    return chi;
+}
+
+const countPis = (intervals, probabilities) => {
+    let pis = []
+    for (let i = 1; i < intervals.length; i++){
+        const a = intervals[i - 1];
+        const b = intervals[i];
+        const pxi = probabilities[i - 1];
+        const res = (b - a) * pxi * ((a + b) / 2)
+        if (res < 0){
+            console.log(a, b, pxi, i);
+        }
+        pis.push(res);
+    }
+    return pis;
 }
 
 const getAllDensity = (probabilities, coef) => probabilities.map((item, i) => item * coef);

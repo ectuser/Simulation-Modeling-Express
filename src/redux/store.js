@@ -15,7 +15,10 @@ const initialState = {
     // 14 lab
     isLoading14: false,
     labels14: [],
-    probabilities14: []
+    probabilities14: {
+        theoretical : [],
+        practical : []
+    }
 };
 
 const reducer = (state = initialState, action) => {

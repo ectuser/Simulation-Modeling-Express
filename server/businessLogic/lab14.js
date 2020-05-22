@@ -15,14 +15,21 @@ const lab14 = async (average, variance, experimentsAmount) => {
     console.log("Selections: ", selections);
     const probabilities = getProbabilities(selections, experimentsAmount);
     console.log("Probabilities: ", probabilities);
+    const theoreticalProbabilities = getTheoreticalProbabilities(intervals, variance, average);
+    console.log("Theoretical probabilities", theoreticalProbabilities);
 
     const resultObject = {
         labels: intervals,
-        probabilities: probabilities
+        probabilities: {
+            practical: probabilities,
+            theoretical: theoreticalProbabilities
+        }
     };
     return resultObject;
 
 }
+
+const getTheoreticalProbabilities = (intervals, variance, average) => intervals.map((x, i) => ((Math.E ** (-((x - average) ** 2) / (2 * variance))) / (Math.sqrt(variance) * Math.sqrt(2 * Math.PI))));
 
 const getProbabilities = (selections, N) => selections.map((item, i) => item / N);
 

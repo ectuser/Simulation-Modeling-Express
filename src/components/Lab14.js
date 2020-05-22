@@ -18,7 +18,6 @@ export const Lab14 = () => {
     const isLoading = useSelector(state => state.isLoading14);
     const labels = useSelector(state => state.labels14);
     const probabilities = useSelector(state => state.probabilities14);
-    const maxProbability = Math.max(...probabilities);
 
     const checkThatDataIsCorrect = (data) => Object.entries(data).every(el => (!isNaN(Number(el[1]))))
 
@@ -49,9 +48,16 @@ export const Lab14 = () => {
             {isLoading && <CircularProgress />}
             <Bar data={
                 {
-                    datasets: [{
-                        data: probabilities
-                    }],
+                    datasets: [
+                    {
+                        type: 'bar',
+                        data: probabilities.practical
+                    },
+                    {
+                        type: 'line',
+                        data: probabilities.theoretical
+                    },
+                ],
                     labels: labels
                 }
 

@@ -1,5 +1,10 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+import {mainSaga} from "./sagas/saga";
+
+const saga = createSagaMiddleware();
+
 
 const initialState = {
     labels: [],
@@ -83,4 +88,6 @@ const reducer = (state = initialState, action) => {
     }
     return state;
 }
-export const store = createStore(reducer, applyMiddleware(thunk));
+export const store = createStore(reducer, applyMiddleware(saga));
+
+saga.run(mainSaga);

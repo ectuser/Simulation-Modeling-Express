@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { TextField, Button, Divider, Grid, CircularProgress, Typography } from "@material-ui/core"
 import { Bar } from 'react-chartjs-2';
-import { solveData13 } from "../redux/store";
+import { solveData, selectLab13 } from "../redux/lab13/reducer";
 
 const styles = {
     divider: {
@@ -37,7 +37,7 @@ export const Lab13 = () => {
             alert("Please type number");
             return;
         }
-        dispatch(solveData13({lambda, range, experimentsAmount}));
+        dispatch(solveData({lambda, range, experimentsAmount}));
 
 
         // console.log(data);

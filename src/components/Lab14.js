@@ -3,7 +3,7 @@ import { TextField, Button, Divider, Typography, CircularProgress } from "@mater
 import { Bar } from 'react-chartjs-2';
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { solveData14 } from "../redux/store";
+import { solveData } from "../redux/lab14/reducer";
 
 
 const styles = {
@@ -30,7 +30,7 @@ export const Lab14 = () => {
             alert("Wrong values");
             return;
         }
-        dispatch(solveData14(data));
+        dispatch(solveData(data));
 
     }
 

@@ -1,10 +1,11 @@
 import { put, takeEvery, all } from "redux-saga/effects";
-import { setIsLoading, setData, setIsLoading14, setData14 } from "../actions";
+import { solveData13, solveData14, setData, setData14, setIsLoading, setIsLoading14 } from "../store";
 import axios from "axios";
 
 function* solveData13Worker(action) {
     yield put(setIsLoading(true));
     try {
+        console.log(action.payload);
         let serverData = yield axios.get('/simulation-discrete-random-variable', { params: action.payload });
         let data = serverData.data;
         console.log(data);
@@ -36,5 +37,5 @@ function* solveData14Worker(action){
 
 
 export function* mainSaga() {
-    yield all([takeEvery("SOLVE_DATA_13", solveData13Worker), takeEvery("SOLVE_DATA_14", solveData14Worker)]);
+    yield all([takeEvery(solveData13, solveData13Worker), takeEvery(solveData14, solveData14Worker)]);
 }

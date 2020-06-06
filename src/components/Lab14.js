@@ -3,7 +3,7 @@ import { TextField, Button, Divider, Typography, CircularProgress } from "@mater
 import { Bar } from 'react-chartjs-2';
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { solveData14 } from "../redux/actions";
+import { solveData14 } from "../redux/store";
 
 
 const styles = {

@@ -7,7 +7,7 @@ const saga = createSagaMiddleware();
 
 // export const store = createStore(createRootReducer, applyMiddleware(saga));
 
-export const createStore = () => {
+const createStore = () => {
     const store = configureStore({
         reducer: createRootReducer(),
         middleware: [
@@ -20,5 +20,7 @@ export const createStore = () => {
 
   return store;
 };
+
+export const store = createStore(); 
 
 // saga.run(mainSaga);

@@ -1,5 +1,6 @@
 const lab13 = require('./services/lab13');
 const lab14 = require('./services/lab14');
+const lab15 = require('./services/lab15');
 
 const Lab13Controller = async (req, res) => {
     const lambda = req.query.lambda;
@@ -14,8 +15,9 @@ const Lab14Controller = async (req, res) => {
     res.json(output);
 };
 
-const Lab15Controller = (req, res) => {
-    
+const Lab15Controller = async (req, res) => {
+    let data = req.query.data;
+    res.json(await lab15(data));
 };
 
 module.exports = {

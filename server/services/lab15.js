@@ -1,4 +1,4 @@
-const lab15 = ({events, t, i}) => {
+const lab15 = async ({events, t, i}) => {
     // states : 
     // 0 - clear
     // 1 - cloudy

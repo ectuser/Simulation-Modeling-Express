@@ -5,12 +5,14 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from "react-redux";
 import { createStore } from "./redux/store";
 
+const Root = ({store}) => (
+	<Provider store={store}>
+		<App />
+	</Provider>	
+)
+
 ReactDOM.render(
-	<React.StrictMode>
-		<Provider store={createStore()}>
-			<App />
-		</Provider>
-	</React.StrictMode>,
+	<Root store={createStore()} />,
 	document.getElementById('root')
 );
 

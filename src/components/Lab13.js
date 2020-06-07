@@ -16,15 +16,16 @@ export const Lab13 = () => {
     let rangeRef = useRef();
     let experimentsAmountRef = useRef();
 
-    const isLoading = useSelector(state => state.isLoading);
-    const average = useSelector(state => state.average);
-    const variance = useSelector(state => state.variance);
-    const averageRelativeMistake = useSelector(state => state.averageRelativeMistake);
-    const varianceRelativeMistake = useSelector(state => state.varianceRelativeMistake);
-    const labels = useSelector(state => state.labels);
-    const practicalProbabilities = useSelector(state => state.practicalProbabilities);
-    const countedChiSquare = useSelector(state => state.countedChiSquare);
-    const tableChiSquare = useSelector(state => state.tableChiSquare);
+    const {isLoading, average, variance, averageRelativeMistake, varianceRelativeMistake, 
+        labels, practicalProbabilities, countedChiSquare, tableChiSquare} = useSelector(selectLab13);
+    // const average = useSelector(state => state.average);
+    // const variance = useSelector(state => state.variance);
+    // const averageRelativeMistake = useSelector(state => state.averageRelativeMistake);
+    // const varianceRelativeMistake = useSelector(state => state.varianceRelativeMistake);
+    // const labels = useSelector(state => state.labels);
+    // const practicalProbabilities = useSelector(state => state.practicalProbabilities);
+    // const countedChiSquare = useSelector(state => state.countedChiSquare);
+    // const tableChiSquare = useSelector(state => state.tableChiSquare);
 
     const submit = async (event) => {
         event.preventDefault();

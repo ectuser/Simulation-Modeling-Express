@@ -4,6 +4,7 @@ import axios from "axios";
 
 
 function* solveData14Worker(action){
+    console.log(action);
     yield put(setIsLoading(true));
     try {
         const outputServerData = yield axios.get('/lab-14', {params : action.payload});

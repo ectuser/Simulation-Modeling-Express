@@ -5,7 +5,7 @@ import {lab14MainSaga} from './lab14/saga';
 
 export default function* rootSaga() {
     yield all([
-        lab13MainSaga,
-        lab14MainSaga
+        lab13MainSaga(),
+        lab14MainSaga()
     ]);
 }

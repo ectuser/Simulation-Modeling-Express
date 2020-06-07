@@ -3,7 +3,7 @@ import { TextField, Button, Divider, Typography, CircularProgress } from "@mater
 import { Bar } from 'react-chartjs-2';
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { solveData } from "../redux/lab14/reducer";
+import { solveData, selectLab14 } from "../redux/lab14/reducer";
 
 
 const styles = {
@@ -15,11 +15,12 @@ const styles = {
 export const Lab14 = () => {
     const dispatch = useDispatch();
 
-    const isLoading = useSelector(state => state.isLoading14);
-    const additionMethodData = useSelector(state => state.additionMethod);
-    const exactAdditionMethodData = useSelector(state => state.exactAdditionMethod);
-    const boxMullerMethodData = useSelector(state => state.boxMullerMethod);
-    const tableChiSquare = useSelector(state => state.tableChiSquare);
+    const {isLoading, additionMethod, exactAdditionMethod, boxMullerMethod, tableChiSquare} = useSelector(selectLab14);
+    console.log("rerender");
+    // const additionMethodData = useSelector(state => state.additionMethod);
+    // const exactAdditionMethodData = useSelector(state => state.exactAdditionMethod);
+    // const boxMullerMethodData = useSelector(state => state.boxMullerMethod);
+    // const tableChiSquare = useSelector(state => state.tableChiSquare);
 
     const checkThatDataIsCorrect = (data) => Object.entries(data).every(el => (!isNaN(Number(el[1]))))
 
@@ -53,14 +54,14 @@ export const Lab14 = () => {
                     datasets: [
                         {
                             type: 'bar',
-                            data: additionMethodData.practicalDensity
+                            data: additionMethod.practicalDensity
                         },
                         {
                             type: 'line',
-                            data: additionMethodData.theoreticalDensity
+                            data: additionMethod.theoreticalDensity
                         },
                     ],
-                    labels: additionMethodData.labels
+                    labels: additionMethod.labels
                 }
 
             } options={
@@ -82,25 +83,25 @@ export const Lab14 = () => {
                 }
             } />
             <Typography variant="h5" gutterBottom>
-                {additionMethodData.practicalAverage && additionMethodData.averageMistake && <span>Average: {additionMethodData.practicalAverage.toFixed(2)} (error = {(additionMethodData.averageMistake * 100).toFixed(2)} %)</span>}
+                {additionMethod.practicalAverage && additionMethod.averageMistake && <span>Average: {additionMethod.practicalAverage.toFixed(2)} (error = {(additionMethod.averageMistake * 100).toFixed(2)} %)</span>}
             </Typography>
             <Typography variant="h5" gutterBottom>
-            {additionMethodData.practicalVariance && additionMethodData.varianceMistake && <span>Average: {additionMethodData.practicalVariance.toFixed(2)} (error = {(additionMethodData.varianceMistake * 100).toFixed(2)} %)</span>}
+            {additionMethod.practicalVariance && additionMethod.varianceMistake && <span>Average: {additionMethod.practicalVariance.toFixed(2)} (error = {(additionMethod.varianceMistake * 100).toFixed(2)} %)</span>}
             </Typography>
             <Typography variant="h5" gutterBottom>
-                {additionMethodData.chiSquare && tableChiSquare && <span>Chi Square: {additionMethodData.chiSquare.toFixed(2)}
+                {additionMethod.chiSquare && tableChiSquare && <span>Chi Square: {additionMethod.chiSquare.toFixed(2)}
                     {(
-                        additionMethodData.chiSquare < tableChiSquare ? <span>&lt;</span> :
-                        additionMethodData.chiSquare === tableChiSquare ? <span>=</span> :
+                        additionMethod.chiSquare < tableChiSquare ? <span>&lt;</span> :
+                        additionMethod.chiSquare === tableChiSquare ? <span>=</span> :
                                 <span>&gt;</span>
                     )}
                     {tableChiSquare}
                     <br />
                     ->
-                    {(additionMethodData.chiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
+                    {(additionMethod.chiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
                     (alpha: 0.7)</span>
                 }
-                {boxMullerMethodData.chiSquare && tableChiSquare == null && <span>Too many events. Can't get Chi Square from table</span>}
+                {boxMullerMethod.chiSquare && tableChiSquare == null && <span>Too many events. Can't get Chi Square from table</span>}
             </Typography>
             <Divider style={styles.divider} />
             <Bar data={
@@ -108,14 +109,14 @@ export const Lab14 = () => {
                     datasets: [
                         {
                             type: 'bar',
-                            data: exactAdditionMethodData.practicalDensity
+                            data: exactAdditionMethod.practicalDensity
                         },
                         {
                             type: 'line',
-                            data: exactAdditionMethodData.theoreticalDensity
+                            data: exactAdditionMethod.theoreticalDensity
                         },
                     ],
-                    labels: exactAdditionMethodData.labels
+                    labels: exactAdditionMethod.labels
                 }
 
             } options={
@@ -137,25 +138,25 @@ export const Lab14 = () => {
                 }
             } />
             <Typography variant="h5" gutterBottom>
-                {exactAdditionMethodData.practicalAverage && exactAdditionMethodData.averageMistake && <span>Average: {exactAdditionMethodData.practicalAverage.toFixed(2)} (error = {(exactAdditionMethodData.averageMistake * 100).toFixed(2)} %)</span>}
+                {exactAdditionMethod.practicalAverage && exactAdditionMethod.averageMistake && <span>Average: {exactAdditionMethod.practicalAverage.toFixed(2)} (error = {(exactAdditionMethod.averageMistake * 100).toFixed(2)} %)</span>}
             </Typography>
             <Typography variant="h5" gutterBottom>
-            {exactAdditionMethodData.practicalVariance && exactAdditionMethodData.varianceMistake && <span>Average: {exactAdditionMethodData.practicalVariance.toFixed(2)} (error = {(exactAdditionMethodData.varianceMistake * 100).toFixed(2)} %)</span>}
+            {exactAdditionMethod.practicalVariance && exactAdditionMethod.varianceMistake && <span>Average: {exactAdditionMethod.practicalVariance.toFixed(2)} (error = {(exactAdditionMethod.varianceMistake * 100).toFixed(2)} %)</span>}
             </Typography>
             <Typography variant="h5" gutterBottom>
-                {exactAdditionMethodData.chiSquare && tableChiSquare && <span>Chi Square: {exactAdditionMethodData.chiSquare.toFixed(2)}
+                {exactAdditionMethod.chiSquare && tableChiSquare && <span>Chi Square: {exactAdditionMethod.chiSquare.toFixed(2)}
                     {(
-                        exactAdditionMethodData.chiSquare < tableChiSquare ? <span>&lt;</span> :
-                        exactAdditionMethodData.chiSquare === tableChiSquare ? <span>=</span> :
+                        exactAdditionMethod.chiSquare < tableChiSquare ? <span>&lt;</span> :
+                        exactAdditionMethod.chiSquare === tableChiSquare ? <span>=</span> :
                                 <span>&gt;</span>
                     )}
                     {tableChiSquare}
                     <br />
                     ->
-                    {(exactAdditionMethodData.chiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
+                    {(exactAdditionMethod.chiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
                     (alpha: 0.7)</span>
                 }
-                {boxMullerMethodData.chiSquare && tableChiSquare == null && <span>Too many events. Can't get Chi Square from table</span>}
+                {boxMullerMethod.chiSquare && tableChiSquare == null && <span>Too many events. Can't get Chi Square from table</span>}
             </Typography>
             <Divider style={styles.divider} />
             <Bar data={
@@ -163,14 +164,14 @@ export const Lab14 = () => {
                     datasets: [
                         {
                             type: 'bar',
-                            data: boxMullerMethodData.practicalDensity
+                            data: boxMullerMethod.practicalDensity
                         },
                         {
                             type: 'line',
-                            data: boxMullerMethodData.theoreticalDensity
+                            data: boxMullerMethod.theoreticalDensity
                         },
                     ],
-                    labels: boxMullerMethodData.labels
+                    labels: boxMullerMethod.labels
                 }
 
             } options={
@@ -192,25 +193,25 @@ export const Lab14 = () => {
                 }
             } />
             <Typography variant="h5" gutterBottom>
-                {boxMullerMethodData.practicalAverage && boxMullerMethodData.averageMistake && <span>Average: {boxMullerMethodData.practicalAverage.toFixed(2)} (error = {(boxMullerMethodData.averageMistake * 100).toFixed(2)} %)</span>}
+                {boxMullerMethod.practicalAverage && boxMullerMethod.averageMistake && <span>Average: {boxMullerMethod.practicalAverage.toFixed(2)} (error = {(boxMullerMethod.averageMistake * 100).toFixed(2)} %)</span>}
             </Typography>
             <Typography variant="h5" gutterBottom>
-            {boxMullerMethodData.practicalVariance && boxMullerMethodData.varianceMistake && <span>Average: {boxMullerMethodData.practicalVariance.toFixed(2)} (error = {(boxMullerMethodData.varianceMistake * 100).toFixed(2)} %)</span>}
+            {boxMullerMethod.practicalVariance && boxMullerMethod.varianceMistake && <span>Average: {boxMullerMethod.practicalVariance.toFixed(2)} (error = {(boxMullerMethod.varianceMistake * 100).toFixed(2)} %)</span>}
             </Typography>
             <Typography variant="h5" gutterBottom>
-                {boxMullerMethodData.chiSquare && tableChiSquare && <span>Chi Square: {boxMullerMethodData.chiSquare.toFixed(2)}
+                {boxMullerMethod.chiSquare && tableChiSquare && <span>Chi Square: {boxMullerMethod.chiSquare.toFixed(2)}
                     {(
-                        boxMullerMethodData.chiSquare < tableChiSquare ? <span>&lt;</span> :
-                        boxMullerMethodData.chiSquare === tableChiSquare ? <span>=</span> :
+                        boxMullerMethod.chiSquare < tableChiSquare ? <span>&lt;</span> :
+                        boxMullerMethod.chiSquare === tableChiSquare ? <span>=</span> :
                                 <span>&gt;</span>
                     )}
                     {tableChiSquare}
                     <br />
                     ->
-                    {(boxMullerMethodData.chiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
+                    {(boxMullerMethod.chiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
                     (alpha: 0.7)</span>
                 }
-                {boxMullerMethodData.chiSquare && tableChiSquare == null && <span>Too many events. Can't get Chi Square from table</span>}
+                {boxMullerMethod.chiSquare && tableChiSquare == null && <span>Too many events. Can't get Chi Square from table</span>}
             </Typography>
             <Divider style={styles.divider} />
         </div>

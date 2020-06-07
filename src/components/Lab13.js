@@ -38,9 +38,6 @@ export const Lab13 = () => {
             return;
         }
         dispatch(solveData({lambda, range, experimentsAmount}));
-
-
-        // console.log(data);
     }
 
     return (

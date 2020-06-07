@@ -16,7 +16,7 @@ export const lab13Reducer = createSlice({
     name : 'lab13',
     initialState,
     reducers : {
-        solveData(state, action){console.log(action.payload)},
+        solveData(state, action){},
         setData(state, action){
             state.labels = [...action.payload.labels];
             state.practicalProbabilities = [...action.payload.practicalProbabilities];

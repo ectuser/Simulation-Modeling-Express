@@ -5,15 +5,19 @@ import {useDispatch, useSelector} from 'react-redux';
 export const Lab15 = () => {
     const dispatch = useDispatch();
     const {currentWeather, currentTime} = useSelector(selectLab15);
+    const states = ["clear", "cloudy", "overcast"];
 
     useEffect(() => {
-        dispatch(getCurrentStatus(currentWeather, currentTime));
-    }, [])
+        dispatch(getCurrentStatus({i : currentWeather, t : currentTime}));
+        setInterval(() => {
+            dispatch(getCurrentStatus({i : currentWeather, t : currentTime}));
+        }, 2000);
+    }, []);
 
     return (
         <div>
             Current weather:
-            <div>{currentWeather}</div>
+            <div>{states[currentWeather]}</div>
             <div>{currentTime}</div>
         </div>
     )

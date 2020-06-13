@@ -9,7 +9,7 @@ app.use(express.static(path.join(__dirname, '../build')));
 
 app.get('/simulation-discrete-random-variable', controller.Lab13Controller);
 app.get('/lab-14', controller.Lab14Controller);
-app.get('/lab-14', controller.Lab15Controller);
+app.get('/lab-15', controller.Lab15Controller);
 
 
 

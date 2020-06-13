@@ -16,8 +16,11 @@ const Lab14Controller = async (req, res) => {
 };
 
 const Lab15Controller = async (req, res) => {
-    let data = req.query.data;
-    res.json(await lab15(data));
+    const {t, i} = req.query;
+    console.log(t, i);
+    let result = await lab15({events : [], t : Number(t), i : Number(i)});
+    console.log(result);
+    res.json(result);
 };
 
 module.exports = {

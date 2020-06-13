@@ -11,8 +11,8 @@ const lab15Store = createSlice({
     reducers : {
         getCurrentStatus(state, action){},
         setCurrentStatus(state, action){
-            state.currentWeather = action.payload;
-            state.currentTime = action.payload;
+            state.currentWeather = action.payload.i;
+            state.currentTime = action.payload.t;
         }
     }
 });

@@ -1,4 +1,4 @@
-const lab15 = async ({events, t, i}) => {
+const lab15 = async ({t, i}) => {
     // states : 
     // 0 - clear
     // 1 - cloudy
@@ -12,19 +12,14 @@ const lab15 = async ({events, t, i}) => {
     ];
 
     const alpha = 0.05;
+    let tao = Math.log(alpha) / coefs[i][i];
+    t += tao;
 
-    for (let index = 0; index < 10; index++){
-        let tao = Math.log(alpha) / coefs[i][i];
-        t += tao;
-
-        const probabilities = getProbabilities([...coefs], i);
-        const distribution = getDistribution([...probabilities]);
-        const probability = Math.random();
-        i = getEvent(distribution, probability);
-
-        events.push(states[i], t);
-    }
-    return {events, t, i};
+    const probabilities = getProbabilities([...coefs], i);
+    const distribution = getDistribution([...probabilities]);
+    const probability = Math.random();
+    i = getEvent(distribution, probability);
+    return {t, i};
 }
 
 const getProbabilities = (coefs, i) => [...new Array(3)].map((item, j) => ((i === j) ? 0 : -coefs[i][j] / coefs[i][i]));

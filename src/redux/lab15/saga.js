@@ -1,5 +1,5 @@
 import {all, takeEvery, put} from 'redux-saga/effects';
-import {setCurrentStatus, getCurrentStatus} from './store';
+import {setCurrentStatus, getCurrentStatus, getCurrentTime, setCurrentTime} from './store';
 import axios from "axios";
 
 function* getCurrentStatusWorker({type, payload}){
@@ -18,6 +18,17 @@ function* getCurrentStatusWorker({type, payload}){
     }
 }
 
+function* getCurrentTimeWorker({type, payload}){
+    try {
+        const params = {currentTime : payload};
+        const response = yield axios.get('/lab-15/get-current-time', {params});
+        let time = Number(response.data.time);
+        yield put(setCurrentTime({ time }));
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export function* lab15MainSaga(){
-    yield all([takeEvery(getCurrentStatus, getCurrentStatusWorker)])
+    yield all([takeEvery(getCurrentStatus, getCurrentStatusWorker), takeEvery(getCurrentTime, getCurrentTimeWorker)])
 }

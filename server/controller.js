@@ -18,13 +18,23 @@ const Lab14Controller = async (req, res) => {
 const Lab15Controller = async (req, res) => {
     const {t, i} = req.query;
     console.log(t, i);
-    let result = await lab15({events : [], t : Number(t), i : Number(i)});
+    let result = await lab15({t : Number(t), i : Number(i)});
     console.log(result);
     res.json(result);
+};
+
+const Lab15GetCurrentTimeController = async (req, res) => {
+    const currentTimeNumber = Number(req.query.currentTime);
+    console.log(currentTimeNumber);
+    const date = new Date(currentTimeNumber);
+    date.setHours(date.getHours() + 1);
+    console.log(date.getTime())
+    res.json({time : date.getTime().toString()});
 };
 
 module.exports = {
     Lab13Controller : Lab13Controller,
     Lab14Controller : Lab14Controller,
-    Lab15Controller : Lab15Controller
+    Lab15Controller : Lab15Controller,
+    Lab15GetCurrentTimeController : Lab15GetCurrentTimeController
 };

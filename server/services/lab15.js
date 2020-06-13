@@ -11,7 +11,7 @@ const lab15 = async ({t, i}) => {
         [0.1, 0.4, -0.5]
     ];
 
-    const alpha = 0.05;
+    const alpha = 0.9;
     let tao = Math.log(alpha) / coefs[i][i];
     t += tao;
 

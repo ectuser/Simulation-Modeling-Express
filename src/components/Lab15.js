@@ -9,9 +9,9 @@ export const Lab15 = () => {
 
     useEffect(() => {
         setInterval(() => {
-            dispatch(getCurrentTime(currentTime));
+            dispatch(getCurrentTime());
         }, 1000);
-        // dispatch(getCurrentStatus({i : currentWeather, t : timeToChangeTheWeather}));
+        dispatch(getCurrentStatus());
         // setInterval(() => {
         //     dispatch(getCurrentStatus({i : currentWeather, t : timeToChangeTheWeather}));
         // }, 2000);

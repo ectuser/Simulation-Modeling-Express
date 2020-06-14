@@ -12,7 +12,12 @@ const lab15 = async ({t, i}) => {
     ];
 
     const alpha = 0.9;
-    let tao = Math.log(alpha) / coefs[i][i];
+    let taoRaw = Math.log(alpha) / coefs[i][i];
+
+    // x / 24 = taoRaw / 1
+
+    const tao = Math.round( 24 * taoRaw / 1 );
+
     t += tao;
 
     const probabilities = getProbabilities([...coefs], i);

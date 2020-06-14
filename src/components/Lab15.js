@@ -29,9 +29,9 @@ export const Lab15 = () => {
         <div>
             Current weather:
             <div>{(new Date(currentTime)).toString()}</div>
-            <div>Current weather: {currentWeather}</div>
-            <div>Comming weather: {commingWeather}</div>
-            <div>Time to change weather: {timeToChangeTheWeather}</div>
+            <div>Current weather: {states[currentWeather]}</div>
+            <div>Comming weather: {states[commingWeather]}</div>
+            {/* <div>Time to change weather: {timeToChangeTheWeather}</div> */}
             <Button onClick={onStart} variant="contained" color="primary">
                 Start
             </Button>

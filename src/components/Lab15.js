@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import {getCurrentStatus, selectLab15, getCurrentTime, setCurrentTimeToDatabase} from '../redux/lab15/store';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button} from '@material-ui/core'
+import {Button, Grid, Typography} from '@material-ui/core';
+import clearImage from '../images/clear.svg';
+import cloudyImage from '../images/cloudy.svg';
+import overcastImage from '../images/overcast.svg';
 
 export const Lab15 = () => {
     const dispatch = useDispatch();
     const {currentWeather, timeToChangeTheWeather, currentTime, commingWeather} = useSelector(selectLab15);
-    const states = ["clear", "cloudy", "overcast"];
+    const states = [clearImage, cloudyImage, overcastImage];
 
     useEffect(() => {
         // setInterval(() => {
@@ -26,16 +29,40 @@ export const Lab15 = () => {
     }
 
     return (
-        <div>
-            Current weather:
-            <div>{(new Date(currentTime)).toString()}</div>
-            <div>Current weather: {states[currentWeather]}</div>
-            <div>Comming weather: {states[commingWeather]}</div>
-            {/* <div>Time to change weather: {timeToChangeTheWeather}</div> */}
+        <div style={{textAlign : "center"}}>
+            <Typography variant="h2">{(new Date(currentTime)).toLocaleString()}</Typography>
+            <Typography variant="h5">Weather should change in {timeToChangeTheWeather} hours</Typography>
             <Button onClick={onStart} variant="contained" color="primary">
                 Start
             </Button>
+
+            <Grid
+                container
+                direction="row"
+                justify="center"
+            >
+                <Grid item >
+                <WeatherStatus text="Current weather" status={states[currentWeather]} />
+                </Grid>
+                <Grid item >
+                <WeatherStatus text="Comming weather" status={states[commingWeather]} />
+                </Grid>
+            </Grid>
+            {/* <div>Time to change weather: {timeToChangeTheWeather}</div> */}
         </div>
     )
+};
+
+const WeatherStatus = ({status, text}) => {
+    return (
+        <div>
+            <Typography variant="h5">{text}</Typography>
+            <img 
+                src={status}
+                alt="Weather"
+            >
+            </img>
+        </div>
+    );
 };
 

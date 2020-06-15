@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {getCurrentStatus, selectLab15, getCurrentTime, setNewInterval, setDefault} from '../redux/lab15/store';
+import {getCurrentStatus, selectLab15, getCurrentTime, setNewInterval, setDefault, processTheResults} from '../redux/lab15/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Grid, Typography} from '@material-ui/core';
 import clearImage from '../images/clear.svg';
@@ -29,7 +29,7 @@ export const Lab15 = () => {
 
     const onStop = () => {
         clearInterval(interval);
-
+        dispatch(processTheResults());
     }
 
     return (

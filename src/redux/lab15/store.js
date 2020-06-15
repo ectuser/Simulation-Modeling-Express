@@ -15,6 +15,7 @@ const lab15Store = createSlice({
         getCurrentStatus(state, action){},
         getCurrentTime(state, action){},
         setCurrentTimeToDatabase(state, action){},
+        processTheResults(state, action){},
         setCurrentStatus(state, action){
             state.currentWeather = action.payload;
         },
@@ -35,5 +36,8 @@ const lab15Store = createSlice({
 });
 
 export default lab15Store.reducer;
-export const {getCurrentStatus, setCurrentStatus, getCurrentTime, setCurrentTime, setCurrentTimeToDatabase, setCommingWeather, setNewInterval, setDefault} = lab15Store.actions;
+export const {
+    getCurrentStatus, setCurrentStatus, getCurrentTime, 
+    setCurrentTime, setCurrentTimeToDatabase, setCommingWeather, setNewInterval, setDefault, processTheResults
+} = lab15Store.actions;
 export const selectLab15 = (state) => state.lab15Store;

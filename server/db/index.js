@@ -20,6 +20,7 @@ const insertRealStartTimeData = async ({startTime, endTime, weatherStaus}) => {
 const getEndTime = async () => {
     try {
         const last = (await db.find({startTime : /.*/}).limit(1).sort({endTime : -1}))[0];
+        console.log(last);
         return last.endTime;
     } catch (error) {
         console.error(error);
@@ -30,8 +31,11 @@ const clearTheDatabase = async () => {
     await db.remove({}, {multi : true});
 }
 
+const getAllEvents = async () => await db.find({startTime : /.*/});
+
 module.exports = {
     insertRealStartTimeData : insertRealStartTimeData,
     getEndTime : getEndTime,
-    clearTheDatabase : clearTheDatabase
+    clearTheDatabase : clearTheDatabase,
+    getAllEvents : getAllEvents
 };

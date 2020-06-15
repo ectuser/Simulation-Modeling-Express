@@ -19,9 +19,9 @@ const Lab14Controller = async (req, res) => {
 const Lab15Controller = async (req, res) => {
     const {t, i, startTime} = req.query;
     console.log(t, i, startTime);
-    let result = await lab15({t : Number(t), i : Number(i)});
+    let result = await lab15.main({t : Number(t), i : Number(i)});
 
-    const endTime = Number(startTime) + Number(result.t) * 3600 * 1000;
+    const endTime = (Number(startTime) + Number(result.t) * 3600 * 1000).toString();
 
     await db.insertRealStartTimeData({startTime, endTime, weatherStaus : result.i});
     console.log(result);
@@ -35,7 +35,7 @@ const Lab15GetCurrentTimeController = async (req, res) => {
     date.setHours(date.getHours() + 1);
     console.log(date.getTime());
 
-    const endTime = await db.getEndTime();
+    const endTime = Number(await db.getEndTime());
 
     let shouldChangeTheWeather = false;
 
@@ -58,11 +58,18 @@ const Lab15ClearDatabase = async (req, res) => {
     res.send("success");
 }
 
+const Lab15ProcessTheResults = async (req, res) => {
+    let events = await db.getAllEvents();
+    events = events.map((item, i) => ({...item, startTime : Number(item.startTime), endTime : Number(item.endTime)}));
+    await lab15.processTheResults(events);
+}
+
 module.exports = {
     Lab13Controller : Lab13Controller,
     Lab14Controller : Lab14Controller,
     Lab15Controller : Lab15Controller,
     Lab15GetCurrentTimeController : Lab15GetCurrentTimeController,
     Lab15SetStartTimeController : Lab15SetStartTimeController,
-    Lab15ClearDatabase : Lab15ClearDatabase
+    Lab15ClearDatabase : Lab15ClearDatabase,
+    Lab15ProcessTheResults : Lab15ProcessTheResults
 };

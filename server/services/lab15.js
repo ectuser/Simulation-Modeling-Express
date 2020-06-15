@@ -37,4 +37,24 @@ const getDistribution = (probabilities) => {
 }
 const getEvent = (distribution, probability) => distribution.indexOf(distribution.find(d => probability < d));
 
-module.exports = lab15;
+
+
+
+const processTheResults = async (events) => {
+    const N = events.length;
+    let stateDurations = getStateDurations(events);
+    const durationsSum = getDurationsSum(stateDurations);
+    stateDurations = getFrequency(stateDurations, durationsSum);
+    
+}
+
+const getStateDurations = (events) => events.map((item ,i) => ({ state : item.weatherStaus, duration : (item.endTime - item.startTime) / (1000 * 3600) })); 
+
+const getDurationsSum = (arr) => arr.map(item => item.duration).reduce((sum, el) => sum + el)
+
+const getFrequency = (stateDurations, durationsSum) => stateDurations.map((item, i) => ({...item, frequency : item.duration / durationsSum}));
+
+module.exports = {
+    main : lab15,
+    processTheResults : processTheResults
+};

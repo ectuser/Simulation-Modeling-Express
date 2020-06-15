@@ -17,7 +17,8 @@ app.get('/simulation-discrete-random-variable', controller.Lab13Controller);
 app.get('/lab-14', controller.Lab14Controller);
 app.get('/lab-15/get-current-time', controller.Lab15GetCurrentTimeController);
 app.get('/lab-15', controller.Lab15Controller);
-app.post('/lab-15/set-start-time', controller.Lab15SetStartTimeController)
+app.post('/lab-15/set-start-time', controller.Lab15SetStartTimeController);
+app.get('/lab-15/clear-database', controller.Lab15ClearDatabase);
 
 
 

@@ -5,6 +5,10 @@ import axios from "axios";
 
 function* getCurrentStatusWorker({type, payload}){
     try {
+        const resStatus = yield axios.get('/lab-15/clear-database');
+        console.log(resStatus)
+
+
         const lab15Store = yield select(selectLab15);
         const params = {
             // t : lab15Store.timeToChangeTheWeather,

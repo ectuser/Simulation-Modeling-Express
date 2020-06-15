@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {getCurrentStatus, selectLab15, getCurrentTime, setCurrentTimeToDatabase} from '../redux/lab15/store';
+import {getCurrentStatus, selectLab15, getCurrentTime, setNewInterval, setDefault} from '../redux/lab15/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Grid, Typography} from '@material-ui/core';
 import clearImage from '../images/clear.svg';
@@ -8,7 +8,7 @@ import overcastImage from '../images/overcast.svg';
 
 export const Lab15 = () => {
     const dispatch = useDispatch();
-    const {currentWeather, timeToChangeTheWeather, currentTime, commingWeather} = useSelector(selectLab15);
+    const {currentWeather, timeToChangeTheWeather, currentTime, commingWeather, interval} = useSelector(selectLab15);
     const states = [clearImage, cloudyImage, overcastImage];
 
     useEffect(() => {
@@ -18,14 +18,18 @@ export const Lab15 = () => {
     }, []);
 
     
-
     const onStart = () => {
+        dispatch(setDefault());
         dispatch(getCurrentStatus());
-        // dispatch(setCurrentTimeToDatabase());
-        setInterval(() => {
+        let inter = setInterval(() => {
             dispatch(getCurrentTime());
         }, 2000);
-        // dispatch(getCurrentStatus());
+        dispatch(setNewInterval(inter))
+    }
+
+    const onStop = () => {
+        clearInterval(interval);
+
     }
 
     return (
@@ -34,6 +38,9 @@ export const Lab15 = () => {
             <Typography variant="h5">Weather should change in {timeToChangeTheWeather} hours</Typography>
             <Button onClick={onStart} variant="contained" color="primary">
                 Start
+            </Button>
+            <Button onClick={onStop} variant="contained" color="secondary">
+                Stop
             </Button>
 
             <Grid

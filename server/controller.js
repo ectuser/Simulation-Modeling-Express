@@ -53,10 +53,16 @@ const Lab15SetStartTimeController = async (req, res) => {
     await db.insertRealStartTimeData(req.body.time);
 }
 
+const Lab15ClearDatabase = async (req, res) => {
+    await db.clearTheDatabase();
+    res.send("success");
+}
+
 module.exports = {
     Lab13Controller : Lab13Controller,
     Lab14Controller : Lab14Controller,
     Lab15Controller : Lab15Controller,
     Lab15GetCurrentTimeController : Lab15GetCurrentTimeController,
-    Lab15SetStartTimeController : Lab15SetStartTimeController
+    Lab15SetStartTimeController : Lab15SetStartTimeController,
+    Lab15ClearDatabase : Lab15ClearDatabase
 };

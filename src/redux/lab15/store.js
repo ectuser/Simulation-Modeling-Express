@@ -4,7 +4,8 @@ const initialState = {
     currentWeather : 0,
     commingWeather : 0,
     timeToChangeTheWeather : 0,
-    currentTime : Date.now()
+    currentTime : Date.now(),
+    interval : null
 };
 
 const lab15Store = createSlice({
@@ -23,10 +24,16 @@ const lab15Store = createSlice({
         setCommingWeather(state, action){
             state.timeToChangeTheWeather = action.payload.timeToChangeTheWeather;
             state.commingWeather = action.payload.commingWeather;
+        },
+        setNewInterval(state, action){
+            state.interval = action.payload;
+        },
+        setDefault(state, action){
+            state = {...initialState};
         }
     }
 });
 
 export default lab15Store.reducer;
-export const {getCurrentStatus, setCurrentStatus, getCurrentTime, setCurrentTime, setCurrentTimeToDatabase, setCommingWeather} = lab15Store.actions;
+export const {getCurrentStatus, setCurrentStatus, getCurrentTime, setCurrentTime, setCurrentTimeToDatabase, setCommingWeather, setNewInterval, setDefault} = lab15Store.actions;
 export const selectLab15 = (state) => state.lab15Store;

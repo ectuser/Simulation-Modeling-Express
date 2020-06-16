@@ -5,7 +5,12 @@ const initialState = {
     commingWeather : 0,
     timeToChangeTheWeather : 0,
     currentTime : Date.now(),
-    interval : null
+    interval : null,
+
+    practicalExpected : null,
+    practicalVariance : null,
+    relativeExpectedMistake : null,
+    relativeVarianceMistake : null
 };
 
 const lab15Store = createSlice({
@@ -31,6 +36,12 @@ const lab15Store = createSlice({
         },
         setDefault(state, action){
             state = {...initialState};
+        },
+        setResults(state, action){
+            state.practicalExpected = action.payload.practicalExpected;
+            state.practicalVariance = action.payload.practicalVariance;
+            state.relativeExpectedMistake = action.payload.relativeExpectedMistake;
+            state.relativeVarianceMistake = action.payload.relativeVarianceMistake;
         }
     }
 });
@@ -38,6 +49,6 @@ const lab15Store = createSlice({
 export default lab15Store.reducer;
 export const {
     getCurrentStatus, setCurrentStatus, getCurrentTime, 
-    setCurrentTime, setCurrentTimeToDatabase, setCommingWeather, setNewInterval, setDefault, processTheResults
+    setCurrentTime, setCurrentTimeToDatabase, setCommingWeather, setNewInterval, setDefault, processTheResults, setResults
 } = lab15Store.actions;
 export const selectLab15 = (state) => state.lab15Store;

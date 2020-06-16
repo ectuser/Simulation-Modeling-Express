@@ -1,5 +1,5 @@
 import {all, takeEvery, put, select} from 'redux-saga/effects';
-import {setCurrentStatus, getCurrentStatus, getCurrentTime, setCurrentTime, setCurrentTimeToDatabase, setCommingWeather, processTheResults} from './store';
+import {setCurrentStatus, getCurrentStatus, getCurrentTime, setCurrentTime, setCurrentTimeToDatabase, setCommingWeather, processTheResults, setResults} from './store';
 import {selectLab15} from './store'
 import axios from "axios";
 
@@ -68,7 +68,9 @@ function* setCurrentTimeToDatabaseWorker(){
 }
 
 function* processTheResultsWorker(){
-    yield axios.get('/lab-15/process-the-results');
+    const response = yield axios.get('/lab-15/process-the-results');
+    const result = response.data;
+    yield put(setResults(result));
 }
 
 export function* lab15MainSaga(){

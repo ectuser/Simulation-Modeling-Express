@@ -8,7 +8,9 @@ import overcastImage from '../images/overcast.svg';
 
 export const Lab15 = () => {
     const dispatch = useDispatch();
-    const {currentWeather, timeToChangeTheWeather, currentTime, commingWeather, interval} = useSelector(selectLab15);
+    const {currentWeather, timeToChangeTheWeather, 
+        currentTime, commingWeather, interval, 
+        practicalExpected, practicalVariance, relativeExpectedMistake, relativeVarianceMistake} = useSelector(selectLab15);
     const states = [clearImage, cloudyImage, overcastImage];
 
     useEffect(() => {
@@ -23,7 +25,7 @@ export const Lab15 = () => {
         dispatch(getCurrentStatus());
         let inter = setInterval(() => {
             dispatch(getCurrentTime());
-        }, 2000);
+        }, 1000);
         dispatch(setNewInterval(inter))
     }
 
@@ -55,6 +57,12 @@ export const Lab15 = () => {
                 <WeatherStatus text="Comming weather" status={states[commingWeather]} />
                 </Grid>
             </Grid>
+            {practicalExpected && 
+            <div>
+                <Typography variant="h5">Expected : {(practicalExpected).toFixed(2)} (mistake: {(relativeExpectedMistake * 100).toFixed(2)} %)</Typography>
+                <Typography variant="h5">Variance : {(practicalVariance).toFixed(2)} (mistake: {(relativeVarianceMistake * 100).toFixed(2)} %)</Typography>
+            </div>
+            }
             {/* <div>Time to change weather: {timeToChangeTheWeather}</div> */}
         </div>
     )

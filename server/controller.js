@@ -61,7 +61,8 @@ const Lab15ClearDatabase = async (req, res) => {
 const Lab15ProcessTheResults = async (req, res) => {
     let events = await db.getAllEvents();
     events = events.map((item, i) => ({...item, startTime : Number(item.startTime), endTime : Number(item.endTime)}));
-    await lab15.processTheResults(events);
+    const result = await lab15.processTheResults(events);
+    res.json(result);
 }
 
 module.exports = {

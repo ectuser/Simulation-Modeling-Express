@@ -97,7 +97,6 @@ export const Lab14 = () => {
                     )}
                     {tableChiSquare}
                     <br />
-                    ->
                     {(additionMethod.chiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
                     (alpha: 0.7)</span>
                 }
@@ -152,7 +151,6 @@ export const Lab14 = () => {
                     )}
                     {tableChiSquare}
                     <br />
-                    ->
                     {(exactAdditionMethod.chiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
                     (alpha: 0.7)</span>
                 }
@@ -207,7 +205,6 @@ export const Lab14 = () => {
                     )}
                     {tableChiSquare}
                     <br />
-                    ->
                     {(boxMullerMethod.chiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
                     (alpha: 0.7)</span>
                 }

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Lab13 } from "./components/Lab13";
 import {Lab14} from "./components/Lab14";
 import { Lab15 } from './components/Lab15';
+import {Lab16} from './components/Lab16'
 
 
 const styles = {
@@ -46,6 +47,9 @@ const App = () => {
                             <ListItem button>
                                 <Link style={styles.link} to="/lab-15"><ListItemText primary="Lab 15"></ListItemText></Link>
                             </ListItem>
+                            <ListItem button>
+                                <Link style={styles.link} to="/lab-16"><ListItemText primary="Lab 16"></ListItemText></Link>
+                            </ListItem>
                         </List>
                     </Drawer>
                 </Grid>
@@ -54,6 +58,7 @@ const App = () => {
                         <Route path="/lab-13" component={Lab13} />
                         <Route path="/lab-14" component={Lab14} />
                         <Route path="/lab-15" component={Lab15} />
+                        <Route path="/lab-16" component={Lab16} />
                     </Switch>
                 </Grid>
             </Grid>

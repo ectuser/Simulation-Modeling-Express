@@ -100,7 +100,6 @@ export const Lab13 = () => {
                         )}
                         {tableChiSquare}
                         <br />
-                    ->
                     {(countedChiSquare < tableChiSquare) ? <span>false</span> : <span>true</span>}
                     (alpha: 0.7)</span>
                     }

@@ -1,20 +1,5 @@
-const lab13 = require('./services/lab13');
-const lab14 = require('./services/lab14');
-const lab15 = require('./services/lab15');
-const db = require('./db/index');
-
-const Lab13Controller = async (req, res) => {
-    const lambda = req.query.lambda;
-    const range = req.query.range;
-    const experimentsAmount = req.query.experimentsAmount;
-    let data = await lab13(Number(lambda), Number(range), Number(experimentsAmount)); // output should be an object
-    res.json(data);
-};
-
-const Lab14Controller = async (req, res) => {
-    let output = await lab14(Number(req.query.average), Number(req.query.variance), Number(req.query.experimentsAmount)); // output should be an object
-    res.json(output);
-};
+const lab15 = require('../services/lab15');
+const db = require('../db/index');
 
 const Lab15Controller = async (req, res) => {
     const {t, i, startTime} = req.query;
@@ -66,9 +51,7 @@ const Lab15ProcessTheResults = async (req, res) => {
 }
 
 module.exports = {
-    Lab13Controller : Lab13Controller,
-    Lab14Controller : Lab14Controller,
-    Lab15Controller : Lab15Controller,
+    main : Lab15Controller,
     Lab15GetCurrentTimeController : Lab15GetCurrentTimeController,
     Lab15SetStartTimeController : Lab15SetStartTimeController,
     Lab15ClearDatabase : Lab15ClearDatabase,

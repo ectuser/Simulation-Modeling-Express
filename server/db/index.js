@@ -1,6 +1,6 @@
 const Datastore = require('nedb-promises')
-const db = new Datastore({ filename: 'server/db/Lab15Database' });
-// const db = new Datastore();
+// const db = new Datastore({ filename: 'server/db/Lab15Database' });
+const db = new Datastore();
 
 
 const insertRealStartTimeData = async ({startTime, endTime, weatherStaus}) => {

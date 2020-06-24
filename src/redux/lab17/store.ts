@@ -2,8 +2,8 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import { State } from './interface';
 import { Lambdas } from './models';
 
-const initialState = {
-    error : "Hello"
+const initialState : State = {
+    error : null
 };
 
 const Lab17Store = createSlice({
@@ -14,7 +14,7 @@ const Lab17Store = createSlice({
         showErrorRequest(state, action : PayloadAction<string | null>){},
 
         showError(state, action : PayloadAction<string | null>){
-            state.error = (action.payload) as string;
+            state.error = action.payload;
         }
     }
 });

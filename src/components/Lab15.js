@@ -5,6 +5,7 @@ import {Button, Grid, Typography} from '@material-ui/core';
 import clearImage from '../images/clear.svg';
 import cloudyImage from '../images/cloudy.svg';
 import overcastImage from '../images/overcast.svg';
+import { selectLab17 } from 'redux/lab17/store';
 
 export const Lab15 = () => {
     const dispatch = useDispatch();

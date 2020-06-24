@@ -22,5 +22,6 @@ const createStore = () => {
 };
 
 export const store = createStore(); 
+console.log(store);
 
 // saga.run(mainSaga);

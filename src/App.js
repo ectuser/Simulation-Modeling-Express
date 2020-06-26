@@ -6,6 +6,7 @@ import { Lab13 } from "./components/Lab13";
 import {Lab14} from "./components/Lab14";
 import { Lab15 } from './components/Lab15';
 import {Lab17} from './components/Lab17';
+import {Lab18} from './components/Lab18';
 
 
 const styles = {
@@ -50,6 +51,9 @@ const App = () => {
                             <ListItem button>
                                 <Link style={styles.link} to="/lab-17"><ListItemText primary="Lab 17"></ListItemText></Link>
                             </ListItem>
+                            <ListItem button>
+                                <Link style={styles.link} to="/lab-18"><ListItemText primary="Lab 18"></ListItemText></Link>
+                            </ListItem>
                         </List>
                     </Drawer>
                 </Grid>
@@ -59,6 +63,7 @@ const App = () => {
                         <Route path="/lab-14" component={Lab14} />
                         <Route path="/lab-15" component={Lab15} />
                         <Route path="/lab-17" component={Lab17} />
+                        <Route path="/lab-18" component={Lab18} />
                     </Switch>
                 </Grid>
             </Grid>

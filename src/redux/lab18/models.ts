@@ -1,7 +1,6 @@
 export interface Employee{
     productivity : number;
     currentCustomer : User | null;
-    lastStatus : EmployeeStatus;
 }
 
 export enum EmployeeStatus{

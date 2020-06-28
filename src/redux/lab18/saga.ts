@@ -207,7 +207,6 @@ function *simulateWorker(action : PayloadAction<{employeeLambda : number , userL
     yield put(setAverageProductivity(averageProductivity));
     console.log(userLambda, employeeLambda, userLambda / employeeLambda);
     const po = userLambda / employeeLambda;
-    // const po = userLambda / (employeeLambda / ((averageProductivity + 1) * 1.2));
     const probabilityZero = countProbabilityZero(state.employeeAmount, po);
     const probabilities = countProbabilities(probabilityZero, state.probabilitiesAmount, state.employeeAmount, po);
     console.log(probabilities);
